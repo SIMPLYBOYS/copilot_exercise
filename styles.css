@@ -117,6 +117,33 @@ h1 {
   transform: translateY(-1px);
 }
 
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+.filter-button {
+  padding: 7px 13px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 0.82rem;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.filter-button:hover,
+.filter-button.active {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  background: rgba(217, 108, 75, 0.14);
+}
+
+.filter-button.active {
+  font-weight: 700;
+}
+
 .list-area {
   min-height: 178px;
   padding-top: 24px;
