@@ -187,10 +187,30 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+.clear-completed-button {
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--accent-dark);
+  background: transparent;
+  font-size: 0.78rem;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.clear-completed-button:not(:disabled):hover {
+  background: #fff1ed;
+}
+
+.clear-completed-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .footer-mark {
