@@ -1,4 +1,6 @@
 const STORAGE_KEY = "offline-todo-items";
+const FILTER_STORAGE_KEY = "offline-todo-filter";
+const VALID_FILTERS = ["all", "active", "completed"];
 
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
@@ -9,7 +11,7 @@ const clearCompletedButton = document.querySelector("#clear-completed");
 const filterButtons = document.querySelectorAll("[data-filter]");
 
 let todos = loadTodos();
-let currentFilter = "all";
+let currentFilter = loadFilterPreference();
 
 // 從 localStorage 讀取資料，若資料損壞則回到空清單。
 function loadTodos() {
@@ -24,6 +26,17 @@ function loadTodos() {
 // 將目前的待辦清單保存到瀏覽器。
 function saveTodos() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+}
+
+// 讀取篩選偏好，遇到非預期值時安全回到全部。
+function loadFilterPreference() {
+  const savedFilter = localStorage.getItem(FILTER_STORAGE_KEY);
+  if (VALID_FILTERS.includes(savedFilter)) {
+    return savedFilter;
+  }
+
+  localStorage.setItem(FILTER_STORAGE_KEY, "all");
+  return "all";
 }
 
 function getVisibleTodos() {
@@ -88,7 +101,12 @@ function renderTodos() {
 }
 
 function setFilter(filter) {
+  if (!VALID_FILTERS.includes(filter)) {
+    filter = "all";
+  }
+
   currentFilter = filter;
+  localStorage.setItem(FILTER_STORAGE_KEY, currentFilter);
   filterButtons.forEach((button) => {
     const isActive = button.dataset.filter === filter;
     button.classList.toggle("active", isActive);
@@ -156,4 +174,4 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => setFilter(button.dataset.filter));
 });
 
-renderTodos();
+setFilter(currentFilter);
